@@ -13,7 +13,7 @@ public final class CorreiosObject: Codable {
 
     // MARK: - Computed variables
 
-    var exists: Bool {
+    public var exists: Bool {
         return !(evento ?? []).isEmpty
     }
 
@@ -21,9 +21,9 @@ public final class CorreiosObject: Codable {
 //        evento?.first?.eventStatus ?? EventStatus.unknown
 //    }
 
-//    // MARK: - Public functions
+    // MARK: - Public functions
 
-    func hash() -> String? {
+    public func hash() -> String? {
         guard
             let numero = numero,
             let mostRecentEvent = evento?.first
