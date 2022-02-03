@@ -1,7 +1,7 @@
 // MARK: - EventStatus
 
 public enum EventStatus: Int, Codable, SafeEnum {
-    static var unknownCase: EventStatus = .unknown
+    public static var unknownCase: EventStatus = .unknown
 
     case unknown                  = 0
     case posted                   = 1
