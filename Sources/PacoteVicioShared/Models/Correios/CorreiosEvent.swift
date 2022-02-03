@@ -1,3 +1,17 @@
+// MARK: - EventStatus
+
+public enum EventStatus: Int, Codable, SafeEnum {
+    static var unknownCase: EventStatus = .unknown
+
+    case unknown                  = 0
+    case posted                   = 1
+    case outForDelivery           = 2
+    case noTax                    = 3
+    case tax                      = 4
+    case forwarded                = 5
+    case delivered                = 6
+}
+
 // MARK: - EventType
 
 public enum EventType: String, Codable {
@@ -29,6 +43,7 @@ public final class Address: Codable {
     public let bairro: String?
     public let latitude: String?
     public let longitude: String?
+    public let complemento: String?
 }
 
 // MARK: - Unit
@@ -46,7 +61,11 @@ public final class Unit: Codable {
 
 // MARK: - Receiver
 
-public final class Receiver: Codable {}
+public final class Receiver: Codable {
+    public let nome: String?
+    public let documento: String?
+    public let comentario: String?
+}
 
 // MARK: - Shipment
 
@@ -58,11 +77,20 @@ public final class Shipment: Codable {
     public let peso: String?
     public let volume: String?
     public let dataprogramada: String?
-    public let destinatario: String?
     public let datapostagem: String?
+    public let destinatario: String?
     public let prazotratamento: String?
     public let datatratamento: String?
     public let codigoservico: String?
+}
+
+// MARK: - DetalheOEC
+public final class DetailOEC: Codable {
+    public let carteiro: String?
+    public let distrito: String?
+    public let lista: String?
+    public let unidade: String?
+    public let endereco: Address?
 }
 
 // MARK: - CorreiosEvent
@@ -88,6 +116,8 @@ public final class CorreiosEvent: Codable {
     public let diasUteis: String?
     public let dataPostagem: String?
     public let postagem: Shipment?
+    public let codigoServico: String?
+    public let detalheOEC: DetailOEC?
 
     // MARK: - Computed variables
 
