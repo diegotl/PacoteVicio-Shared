@@ -14,7 +14,7 @@ public final class CorreiosObject: Codable {
         return !(evento ?? []).isEmpty
     }
 
-    var eventStatus: EventStatus {
+    public var eventStatus: EventStatus {
         evento?.first?.eventStatus ?? .unknown
     }
     
