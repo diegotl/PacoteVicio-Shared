@@ -1,6 +1,3 @@
-import CryptoKit
-import Foundation
-
 public struct CainiaoObject: Codable {
     // MARK: - Variables
     public var originalTrackingCode: String?
@@ -30,11 +27,4 @@ public struct CainiaoObject: Codable {
         case detailList
     }
 
-    // MARK: - Public functions
-
-    public func hash() -> String? {
-        guard let mostRecentEvent = detailList.first else { return nil }
-        let source = [originalTrackingCode, newTrackingCode, mostRecentEvent.time, mostRecentEvent.desc, mostRecentEvent.status].compactMap({ $0 }).joined()
-        return SHA256.hash(data: Data(source.utf8)).hex
-    }
 }
