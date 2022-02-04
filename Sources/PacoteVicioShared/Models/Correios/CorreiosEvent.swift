@@ -65,6 +65,22 @@ public final class Receiver: Codable {
     public let nome: String?
     public let documento: String?
     public let comentario: String?
+
+    public init(from decoder: Decoder) throws {
+        if let container = try? decoder.container(keyedBy: CodingKeys.self) {
+            nome = try? container.decodeIfPresent(String.self, forKey: .nome)
+            documento = try? container.decodeIfPresent(String.self, forKey: .documento)
+            comentario = try? container.decodeIfPresent(String.self, forKey: .comentario)
+        } else if let container = try? decoder.singleValueContainer() {
+            nome = try? container.decode(String.self)
+            documento = nil
+            comentario = nil
+        } else {
+            nome = nil
+            documento = nil
+            comentario = nil
+        }
+    }
 }
 
 // MARK: - Shipment
