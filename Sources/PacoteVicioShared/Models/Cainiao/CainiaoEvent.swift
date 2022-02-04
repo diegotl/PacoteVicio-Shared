@@ -1,3 +1,5 @@
+import Foundation
+
 public struct CainiaoEvent: Codable {
     // MARK: - Public varibales
     public let timeZone: String
