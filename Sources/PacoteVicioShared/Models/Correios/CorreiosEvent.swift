@@ -28,6 +28,7 @@ public enum EventType: String, Codable {
     case ldi = "LDI"
     case oec = "OEC"
     case po = "PO"
+    case co = "CO"
     case unknown
 }
 
