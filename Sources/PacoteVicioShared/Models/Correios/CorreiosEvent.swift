@@ -14,7 +14,9 @@ public enum EventStatus: Int, Codable, SafeEnum {
 
 // MARK: - EventType
 
-public enum EventType: String, Codable {
+public enum EventType: String, Codable, SafeEnum {
+    public static var unknownCase: EventType = .unknown
+    
     case bde = "BDE"
     case bdi = "BDI"
     case bdr = "BDR"
