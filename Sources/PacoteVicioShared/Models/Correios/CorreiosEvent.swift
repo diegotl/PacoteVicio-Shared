@@ -31,6 +31,7 @@ public enum EventType: String, Codable, SafeEnum {
     case oec = "OEC"
     case po = "PO"
     case co = "CO"
+    case cun = "CUN"
     case unknown
 }
 
