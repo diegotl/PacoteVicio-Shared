@@ -1,11 +1,33 @@
 import XCTest
 @testable import PacoteVicioShared
 
-//final class PacoteVicioSharedTests: XCTestCase {
-//    func testExample() throws {
-//        // This is an example of a functional test case.
-//        // Use XCTAssert and related functions to verify your tests produce the correct
-//        // results.
-//        XCTAssertEqual(PacoteVicioShared().text, "Hello, World!")
-//    }
-//}
+final class PacoteVicioSharedTests: XCTestCase {
+
+    private class TestObject: Codable {
+        let eventType: EventType
+    }
+
+    func testPredictedEventType() throws {
+        // Given
+        let json = "{\"eventType\":\"BDE\"}"
+        let jsonData = json.data(using: .utf8)!
+
+        // When
+        let testObject = try JSONDecoder().decode(TestObject.self, from: jsonData)
+
+        // Then
+        XCTAssertEqual(testObject.eventType, .bde)
+    }
+
+    func testUnpredictedEventType() throws {
+        // Given
+        let json = "{\"eventType\":\"UNK\"}"
+        let jsonData = json.data(using: .utf8)!
+
+        // When
+        let testObject = try JSONDecoder().decode(TestObject.self, from: jsonData)
+
+        // Then
+        XCTAssertEqual(testObject.eventType, .unknown)
+    }
+}

@@ -32,6 +32,7 @@ public enum EventType: String, Codable, SafeEnum {
     case po = "PO"
     case co = "CO"
     case cun = "CUN"
+    case cmr = "CMR"
     case unknown
 }
 
