@@ -1,30 +1,14 @@
-public struct CainiaoObject: Codable {
-    // MARK: - Variables
-    public var originalTrackingCode: String?
-    public var newTrackingCode: String?
+public protocol CainiaoObject: Decodable {
+    associatedtype E: CainiaoEvent
+    var events: [E] { get }
+}
 
-    public let companyName: String?
-    public let companyPhone: String?
-    public let url: String?
-    public let countryName: String?
-    public let detailList: [CainiaoEvent]
-
-    // MARK: - Computed variables
-    public var exists: Bool {
-        !detailList.isEmpty
+public extension CainiaoObject {
+    var exists: Bool {
+        !events.isEmpty
     }
 
-    public var eventStatus: EventStatus {
-        detailList.first?.eventStatus ?? .unknown
+    var eventStatus: EventStatus {
+        events.first?.eventStatus ?? .unknown
     }
-
-    // MARK: - Coding Keys
-    private enum CodingKeys: String, CodingKey {
-        case companyName
-        case companyPhone
-        case url
-        case countryName
-        case detailList
-    }
-
 }
