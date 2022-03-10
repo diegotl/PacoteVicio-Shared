@@ -1,13 +1,13 @@
 // MARK: - TrackingMoreResponse
-final class TrackingMoreResponse: Decodable {
-    let code: Int
+public final class TrackingMoreResponse: Decodable {
+    public let code: Int
     let data: [TrackingMoreData]
     let message: String
     let status: String
 }
 
 // MARK: - TrackingMoreData
-final class TrackingMoreData: Decodable {
+public final class TrackingMoreData: Decodable {
     let lang: String
     let lastInfo: String
     let lastTime: String
@@ -24,7 +24,7 @@ final class TrackingMoreData: Decodable {
 }
 
 // MARK: - CainiaoTrackingMoreObject
-final class CainiaoTrackingMoreObject<E: CainiaoEvent>: CainiaoObject {
+public final class CainiaoTrackingMoreObject<E: CainiaoEvent>: CainiaoObject {
     let departfromAirport: String
     let itemReceived: String
     let lastUpdateTime: String
@@ -44,7 +44,7 @@ final class CainiaoTrackingMoreObject<E: CainiaoEvent>: CainiaoObject {
     }
 
     // MARK: - CainiaoObject
-    var events: [E] {
+    public var events: [E] {
         trackinfo
     }
 }

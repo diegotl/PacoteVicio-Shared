@@ -4,7 +4,7 @@ public final class CainiaoTrackTryObject<E: CainiaoEvent>: CainiaoObject {
     let status: String
     let trackUpdate: Bool
     let trackinfo: [E]
-    let trackingNumber: String
+    public let trackingNumber: String
     let weblink: String
 
     enum CodingKeys: String, CodingKey {
