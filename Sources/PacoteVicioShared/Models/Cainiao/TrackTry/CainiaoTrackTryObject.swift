@@ -1,10 +1,13 @@
 public final class CainiaoTrackTryObject<E: CainiaoEvent>: CainiaoObject {
+    // MARK: - Public variables
+    public let trackingNumber: String
+
+    // MARK: - Private variables
     let lastEvent: String
     let lastUpdateTime: String
     let status: String
     let trackUpdate: Bool
     let trackinfo: [E]
-    public let trackingNumber: String
     let weblink: String
 
     enum CodingKeys: String, CodingKey {

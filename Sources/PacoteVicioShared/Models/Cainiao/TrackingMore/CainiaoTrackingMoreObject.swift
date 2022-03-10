@@ -1,6 +1,9 @@
 // MARK: - TrackingMoreResponse
 public final class TrackingMoreResponse: Decodable {
+    // MARK: - Public variables
     public let code: Int
+
+    // MARK: - Private variables
     let data: [TrackingMoreData]
     let message: String
     let status: String

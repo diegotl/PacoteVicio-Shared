@@ -1,8 +1,9 @@
 public final class CainiaoDefaultObject<E: CainiaoEvent>: CainiaoObject {
-    // MARK: - Variables
+    // MARK: - Public variables
     public var originalTrackingCode: String?
     public var newTrackingCode: String?
 
+    // MARK: - Private variables
     let companyName: String?
     let companyPhone: String?
     let url: String?
