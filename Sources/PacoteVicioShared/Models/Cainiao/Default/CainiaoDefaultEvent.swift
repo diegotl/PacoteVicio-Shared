@@ -9,12 +9,7 @@ public final class CainiaoDefaultEvent: CainiaoEvent {
 
     // MARK: - CainiaoEvent
     public var date: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        guard let date = dateFormatter.date(from: time) else { return time }
-
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: Int(timeZone) ?? 0 * 3600)
-        return dateFormatter.string(from: date)
+        time
     }
 
     public var description: String {
