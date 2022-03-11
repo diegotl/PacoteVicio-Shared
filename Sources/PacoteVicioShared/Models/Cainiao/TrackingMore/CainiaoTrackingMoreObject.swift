@@ -31,13 +31,13 @@ public final class TrackingMoreData: Decodable {
 
 // MARK: - CainiaoTrackingMoreObject
 public final class CainiaoTrackingMoreObject<E: CainiaoEvent>: CainiaoObject {
-    let departfromAirport: String
-    let itemReceived: String
-    let lastUpdateTime: String
-    let statusInfo: String
-    let substatus: String
-    let trackinfo: [E]
-    let weblink: String
+    let departfromAirport: String?
+    let itemReceived: String?
+    let lastUpdateTime: String?
+    let statusInfo: String?
+    let substatus: String?
+    let trackinfo: [E]?
+    let weblink: String?
 
     enum CodingKeys: String, CodingKey {
         case departfromAirport = "DepartfromAirport"
@@ -51,6 +51,6 @@ public final class CainiaoTrackingMoreObject<E: CainiaoEvent>: CainiaoObject {
 
     // MARK: - CainiaoObject
     public var events: [E] {
-        trackinfo
+        trackinfo ?? []
     }
 }
