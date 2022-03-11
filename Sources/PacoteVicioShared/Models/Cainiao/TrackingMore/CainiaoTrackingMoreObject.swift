@@ -2,19 +2,22 @@
 public final class TrackingMoreResponse: Decodable {
     // MARK: - Public variables
     public let code: Int
+    public let data: [TrackingMoreData]
 
     // MARK: - Private variables
-    let data: [TrackingMoreData]
     let message: String
     let status: String
 }
 
 // MARK: - TrackingMoreData
 public final class TrackingMoreData: Decodable {
+    // MARK: - Public variables
+    public let originData: CainiaoTrackingMoreObject<CainiaoTrackEvent>
+
+    // MARK: - Private variables
     let lang: String
     let lastInfo: String
     let lastTime: String
-    let originData: CainiaoTrackingMoreObject<CainiaoTrackEvent>
     let trackNumber: String
 
     enum CodingKeys: String, CodingKey {
