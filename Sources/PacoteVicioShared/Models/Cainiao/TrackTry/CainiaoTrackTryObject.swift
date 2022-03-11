@@ -7,7 +7,7 @@ public final class CainiaoTrackTryObject<E: CainiaoEvent>: CainiaoObject {
     let lastUpdateTime: String
     let status: String
     let trackUpdate: Bool
-    let trackinfo: [E]
+    let trackinfo: [E]?
     let weblink: String
 
     enum CodingKeys: String, CodingKey {
@@ -22,6 +22,6 @@ public final class CainiaoTrackTryObject<E: CainiaoEvent>: CainiaoObject {
 
     // MARK: - CainiaoObject
     public var events: [E] {
-        trackinfo
+        trackinfo ?? []
     }
 }
