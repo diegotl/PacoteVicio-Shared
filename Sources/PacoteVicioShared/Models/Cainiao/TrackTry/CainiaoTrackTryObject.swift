@@ -1,4 +1,4 @@
-public final class CainiaoTrackTryObject<E: CainiaoEvent>: CainiaoObject {
+public final class CainiaoTrackTryObject<E: CainiaoEvent>: CainiaoObjectProtocol {
     // MARK: - Public variables
     public let trackingNumber: String
 

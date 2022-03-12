@@ -1,4 +1,4 @@
-public final class CainiaoDefaultObject<E: CainiaoEvent>: CainiaoObject {
+public final class CainiaoDefaultObject<E: CainiaoEvent>: CainiaoObjectProtocol {
     // MARK: - Public variables
     public var originalTrackingCode: String?
     public var newTrackingCode: String?

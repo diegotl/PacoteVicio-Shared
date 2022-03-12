@@ -30,7 +30,7 @@ public final class TrackingMoreData: Decodable {
 }
 
 // MARK: - CainiaoTrackingMoreObject
-public final class CainiaoTrackingMoreObject<E: CainiaoEvent>: CainiaoObject {
+public final class CainiaoTrackingMoreObject<E: CainiaoEvent>: CainiaoObjectProtocol {
     let departfromAirport: String?
     let itemReceived: String?
     let lastUpdateTime: String?
