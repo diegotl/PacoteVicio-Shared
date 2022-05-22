@@ -34,6 +34,19 @@ public enum EventType: String, Codable, SafeEnum {
     case cun = "CUN"
     case cmr = "CMR"
     case unknown
+
+    var weight: Int {
+        switch self {
+        case .par:
+            return 10
+        case .ro:
+            return 5
+        case .po:
+            return 1
+        default:
+            return 0
+        }
+    }
 }
 
 // MARK: - Address
