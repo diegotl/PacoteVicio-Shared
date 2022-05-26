@@ -8,6 +8,7 @@ final class PostalType: Codable {
 // MARK: - CorreiosProxyAppObject
 public final class CorreiosProxyAppObject: Codable {
     let codObjeto: String
-    let eventos: [CorreiosProxyAppEvent]
-    let tipoPostal: PostalType
+    let mensagem: String?
+    let eventos: [CorreiosProxyAppEvent]?
+    let tipoPostal: PostalType?
 }

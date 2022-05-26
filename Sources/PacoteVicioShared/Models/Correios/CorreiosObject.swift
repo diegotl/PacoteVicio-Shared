@@ -43,9 +43,9 @@ public final class CorreiosObject: Codable {
     public init(proxyAppObject: CorreiosProxyAppObject) {
         numero = proxyAppObject.codObjeto
         sigla = String(proxyAppObject.codObjeto.prefix(2))
-        nome = proxyAppObject.tipoPostal.descricao
-        categoria = proxyAppObject.tipoPostal.categoria
-        evento = proxyAppObject.eventos.compactMap({ CorreiosEvent(proxyAppEvent: $0) })
-        erro = nil
+        nome = proxyAppObject.tipoPostal?.descricao
+        categoria = proxyAppObject.tipoPostal?.categoria
+        evento = proxyAppObject.eventos?.compactMap({ CorreiosEvent(proxyAppEvent: $0) })
+        erro = proxyAppObject.mensagem
     }
 }

@@ -49,7 +49,7 @@ final class PacoteVicioSharedTests: XCTestCase {
         XCTAssertEqual(correiosObject.evento![2].tipo, .po)
     }
 
-    func testCorreiosObjectDecodesProxyAppResponse() throws {
+    func testProxyAppResponseConvertsToCorreiosObject() throws {
         // Given
         let json = """
 {"codObjeto":"LE449872154SE","eventos":[{"codigo":"BDE","descricao":"Objeto entregue ao destinatário","dtHrCriado":"2022-02-08T11:16:53","tipo":"01","unidade":{"endereco":{"cidade":"CAMPINAS","uf":"SP"},"tipo":"Unidade de Distribuição"},"urlIcone":"/public-resources/img/smile.png"},{"codigo":"OEC","descricao":"Objeto saiu para entrega ao destinatário","dtHrCriado":"2022-02-08T09:40:31","tipo":"01","unidade":{"endereco":{"bairro":"JARDIM DO LAGO","cep":"13050973","cidade":"CAMPINAS","logradouro":"RUA DOS GRAFICOS","numero":"510","uf":"SP"},"tipo":"Unidade de Distribuição"},"urlIcone":"/public-resources/img/pre-atendimento-cor.png"},{"codigo":"RO","descricao":"Objeto em trânsito - por favor aguarde","dtHrCriado":"2022-02-07T13:43:32","tipo":"01","unidade":{"endereco":{"cidade":"INDAIATUBA","uf":"SP"},"tipo":"Unidade de Tratamento"},"unidadeDestino":{"endereco":{"cidade":"CAMPINAS","uf":"SP"},"tipo":"Unidade de Distribuição"},"urlIcone":"/public-resources/img/caminhao-cor.png"},{"codigo":"RO","descricao":"Objeto em trânsito - por favor aguarde","dtHrCriado":"2022-02-04T16:26:09","tipo":"01","unidade":{"endereco":{"cidade":"CURITIBA","uf":"PR"},"tipo":"Unidade de Tratamento"},"unidadeDestino":{"endereco":{"cidade":"INDAIATUBA","uf":"SP"},"tipo":"Unidade de Tratamento"},"urlIcone":"/public-resources/img/caminhao-cor.png"},{"codigo":"PAR","descricao":"Fiscalização aduaneira finalizada","dtHrCriado":"2022-02-04T16:24:09","tipo":"10","unidade":{"endereco":{"cidade":"CURITIBA","uf":"PR"},"tipo":"Unidade Operacional"},"urlIcone":"/public-resources/img/verificar-documento-cor.png"},{"codigo":"PAR","descricao":"Pagamento confirmado","dtHrCriado":"2022-02-04T04:22:36","tipo":"31","unidade":{"endereco":{"cidade":"CURITIBA","uf":"PR"},"tipo":"Unidade de Logística Integrada"},"urlIcone":"/public-resources/img/fatura-paga.png"},{"codigo":"PAR","descricao":"Aguardando pagamento","dtHrCriado":"2022-02-02T23:17:58","tipo":"17","unidade":{"endereco":{"cidade":"CURITIBA","uf":"PR"},"tipo":"Unidade de Logística Integrada"},"urlIcone":"/public-resources/img/aguardando-pagamento.png"},{"codigo":"PAR","descricao":"Encaminhado para fiscalização aduaneira","dtHrCriado":"2022-01-31T09:40:21","tipo":"21","unidade":{"endereco":{"cidade":"CURITIBA","uf":"PR"},"tipo":"Unidade de Logística Integrada"},"urlIcone":"/public-resources/img/caminhao-cor.png"},{"codigo":"PAR","descricao":"Objeto recebido pelos Correios do Brasil","dtHrCriado":"2022-01-24T14:58:19","tipo":"16","unidade":{"endereco":{"cidade":"CURITIBA","uf":"PR"},"tipo":"Unidade Operacional"},"urlIcone":"/public-resources/img/brazil.png"},{"codigo":"RO","descricao":"Objeto em trânsito - por favor aguarde","dtHrCriado":"2022-01-19T17:29:00","tipo":"01","unidade":{"codSro":"00752000","endereco":{},"nome":"SUECIA","tipo":"País"},"unidadeDestino":{"codSro":"00500001","endereco":{"uf":"BR"},"nome":"Unidade de Tratamento Internacional","tipo":"País"},"urlIcone":"/public-resources/img/caminhao-cor.png"},{"codigo":"PO","descricao":"Objeto postado","dtHrCriado":"2022-01-19T17:28:00","tipo":"01","unidade":{"codSro":"00752000","endereco":{},"nome":"SUECIA","tipo":"País"},"urlIcone":"/public-resources/img/agencia-cor.png"},{"codigo":"PAR","descricao":"Objeto recebido na unidade de exportação no país de origem","dtHrCriado":"2022-01-19T17:28:00","tipo":"18","unidade":{"codSro":"00752000","endereco":{},"nome":"SUECIA","tipo":"País"},"urlIcone":"/public-resources/img/receber-encomenda-cor.png"}],"modalidade":"V","tipoPostal":{"categoria":"PRIME IMPORTAÇÃO","descricao":"OBJETO INTERNACIONAL PRIME","sigla":"LE"},"habilitaAutoDeclaracao":false,"permiteEncargoImportacao":false,"habilitaPercorridaCarteiro":false,"bloqueioObjeto":false,"possuiLocker":false,"habilitaLocker":false,"habilitaCrowdshipping":false}
@@ -60,11 +60,28 @@ final class PacoteVicioSharedTests: XCTestCase {
         let correiosProxyAppObject = try JSONDecoder().decode(CorreiosProxyAppObject.self, from: jsonData)
         let correiosObject = CorreiosObject(proxyAppObject: correiosProxyAppObject)
         
-
         // Then
         XCTAssertNotNil(correiosProxyAppObject.eventos)
         XCTAssertNotNil(correiosObject.evento)
-        XCTAssertEqual(correiosProxyAppObject.eventos.count, 12)
+        XCTAssertEqual(correiosProxyAppObject.eventos!.count, 12)
         XCTAssertEqual(correiosObject.evento!.count, 12)
+    }
+
+    func testFailedProxyAppResponseConvertsToCorreiosObject() throws {
+        // Given
+        let json = """
+{"codObjeto":"LB472147443HK","mensagem":"SRO-019: Objeto inválido","modalidade":"V","habilitaAutoDeclaracao":false,"permiteEncargoImportacao":false,"habilitaPercorridaCarteiro":false,"bloqueioObjeto":false,"possuiLocker":false,"habilitaLocker":false}
+"""
+        let jsonData = json.data(using: .utf8)!
+
+        // When
+        let correiosProxyAppObject = try JSONDecoder().decode(CorreiosProxyAppObject.self, from: jsonData)
+        let correiosObject = CorreiosObject(proxyAppObject: correiosProxyAppObject)
+        
+        // Then
+        XCTAssertNil(correiosProxyAppObject.eventos)
+        XCTAssertNil(correiosObject.evento)
+        XCTAssertNotNil(correiosProxyAppObject.mensagem)
+        XCTAssertNotNil(correiosObject.erro)
     }
 }
