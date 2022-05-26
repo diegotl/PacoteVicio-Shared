@@ -256,7 +256,7 @@ public final class CorreiosEvent: Codable {
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
         guard let dateTime = dateFormatter.date(from: proxyAppEvent.dtHrCriado) else { return nil }
 
-        dateFormatter.dateFormat = "dd/MM/yyyy:ss"
+        dateFormatter.dateFormat = "dd/MM/yyyy"
         data = dateFormatter.string(from: dateTime)
 
         dateFormatter.dateFormat = "HH:mm"
