@@ -1,5 +1,6 @@
-// MARK: - EventStatus
+import Foundation
 
+// MARK: - EventStatus
 public enum EventStatus: Int, Codable, SafeEnum {
     public static var unknownCase: EventStatus = .unknown
 
@@ -13,7 +14,6 @@ public enum EventStatus: Int, Codable, SafeEnum {
 }
 
 // MARK: - EventType
-
 public enum EventType: String, Codable, SafeEnum {
     public static var unknownCase: EventType = .unknown
     
@@ -50,7 +50,6 @@ public enum EventType: String, Codable, SafeEnum {
 }
 
 // MARK: - Address
-
 public final class Address: Codable {
     public let codigo: String?
     public let cep: String?
@@ -62,10 +61,23 @@ public final class Address: Codable {
     public let latitude: String?
     public let longitude: String?
     public let complemento: String?
+
+    init?(proxyAppAddress: ProxyAppAddress?) {
+        guard let proxyAppAddress = proxyAppAddress else { return nil }
+        cep = proxyAppAddress.cep
+        logradouro = proxyAppAddress.logradouro
+        numero = proxyAppAddress.numero
+        localidade = proxyAppAddress.cidade
+        uf = proxyAppAddress.uf
+        bairro = proxyAppAddress.bairro
+        codigo = nil
+        latitude = nil
+        longitude = nil
+        complemento = nil
+    }
 }
 
 // MARK: - Unit
-
 public final class Unit: Codable {
     public let local: String?
     public let codigo: String?
@@ -75,10 +87,21 @@ public final class Unit: Codable {
     public let sto: String?
     public let tipounidade: String?
     public let endereco: Address?
+
+    init?(proxyAppUnit: ProxyAppUnit?) {
+        guard let proxyAppUnit = proxyAppUnit else { return nil }
+        tipounidade = proxyAppUnit.tipo
+        endereco = Address(proxyAppAddress: proxyAppUnit.endereco)
+        codigo = proxyAppUnit.endereco?.cep
+        cidade = proxyAppUnit.endereco?.cidade
+        bairro = proxyAppUnit.endereco?.bairro
+        uf = proxyAppUnit.endereco?.uf
+        local = nil
+        sto = nil
+    }
 }
 
 // MARK: - Receiver
-
 public final class Receiver: Codable {
     public let nome: String?
     public let documento: String?
@@ -102,7 +125,6 @@ public final class Receiver: Codable {
 }
 
 // MARK: - Shipment
-
 public final class Shipment: Codable {
     public let cepdestino: String?
     public let ar: String?
@@ -128,10 +150,8 @@ public final class DetailOEC: Codable {
 }
 
 // MARK: - CorreiosEvent
-
 public final class CorreiosEvent: Codable {
     // MARK: - Minimal
-
     public let tipo: EventType
     public let status: String
     public let data: String
@@ -139,7 +159,6 @@ public final class CorreiosEvent: Codable {
     public let descricao: String
 
     // MARK: - Optional
-
     public let criacao: String?
     public let detalhe: String?
     public let recebedor: Receiver?
@@ -154,7 +173,6 @@ public final class CorreiosEvent: Codable {
     public let detalheOEC: DetailOEC?
 
     // MARK: - Computed variables
-
     public var eventStatus: EventStatus {
         guard let status = Int(status) else { return EventStatus.forwarded }
 
@@ -230,5 +248,40 @@ public final class CorreiosEvent: Codable {
         default:
             return false
         }
+    }
+
+    init?(proxyAppEvent: CorreiosProxyAppEvent) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        guard let dateTime = dateFormatter.date(from: proxyAppEvent.dtHrCriado) else { return nil }
+
+        dateFormatter.dateFormat = "dd/MM/yyyy:ss"
+        data = dateFormatter.string(from: dateTime)
+
+        dateFormatter.dateFormat = "HH:mm"
+        hora = dateFormatter.string(from: dateTime)
+
+        tipo = proxyAppEvent.codigo
+        status = proxyAppEvent.tipo
+        descricao = proxyAppEvent.descricao
+        unidade = Unit(proxyAppUnit: proxyAppEvent.unidade)
+
+        if let unidadeDestino = Unit(proxyAppUnit: proxyAppEvent.unidadeDestino) {
+            destino = [unidadeDestino]
+        } else {
+            destino = nil
+        }
+
+        criacao = nil
+        detalhe = nil
+        recebedor = nil
+        cepDestino = nil
+        prazoGuarda = nil
+        diasUteis = nil
+        dataPostagem = nil
+        postagem = nil
+        codigoServico = nil
+        detalheOEC = nil
     }
 }

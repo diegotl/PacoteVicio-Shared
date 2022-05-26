@@ -9,7 +9,6 @@ public final class CorreiosObject: Codable {
     public let erro: String?
 
     // MARK: - Computed variables
-
     public var exists: Bool {
         return !(evento ?? []).isEmpty
     }
@@ -40,5 +39,13 @@ public final class CorreiosObject: Codable {
             })
         }
     }
-    
+
+    public init(proxyAppObject: CorreiosProxyAppObject) {
+        numero = proxyAppObject.codObjeto
+        sigla = String(proxyAppObject.codObjeto.prefix(2))
+        nome = proxyAppObject.tipoPostal.descricao
+        categoria = proxyAppObject.tipoPostal.categoria
+        evento = proxyAppObject.eventos.compactMap({ CorreiosEvent(proxyAppEvent: $0) })
+        erro = nil
+    }
 }
